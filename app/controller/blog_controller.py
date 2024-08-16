@@ -11,12 +11,14 @@ blog_bp = Blueprint('blog', __name__)
 @blog_bp.route('/')
 @inject
 def index(blog: BlogService):
+    """Render the index page with all blog posts."""
     posts = blog.load_posts()
     return render_template('index.html', posts=posts)
 
 @blog_bp.route('/add', methods=['GET', 'POST'])
 @inject
 def add(blog: BlogService):
+    """ Adding a new blog post."""
     if request.method == 'POST':
         title = request.form.get('title')
         author = request.form.get('author')
@@ -32,6 +34,7 @@ def add(blog: BlogService):
 @blog_bp.route('/delete/<int:post_id>')
 @inject
 def delete(post_id: int, blog: BlogService):
+    """Delete a blog post by its ID."""
     blog.delete_post(post_id)
     return redirect(url_for('blog.index'))
 
@@ -39,6 +42,7 @@ def delete(post_id: int, blog: BlogService):
 @blog_bp.route('/update/<int:post_id>', methods=['GET', 'POST'])
 @inject
 def update(blog: BlogService, post_id: int):
+    """update a blog post by its ID."""
     post = blog.get_post_by_id(post_id)
     if post is None:
         return "Post not found", 404

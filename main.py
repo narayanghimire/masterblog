@@ -3,6 +3,7 @@ from flask_injector import FlaskInjector
 from dependencies import configure
 
 def create_app():
+    """Create and configure the Flask application."""
     app = Flask(__name__, static_folder='static', template_folder='templates')
     from app.controller.blog_controller import blog_bp
     app.register_blueprint(blog_bp)

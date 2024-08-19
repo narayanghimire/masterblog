@@ -25,7 +25,13 @@ def add(blog: BlogService):
         content = request.form.get('content')
 
         if title and author and content:
-            blog_post = BlogPost(uuid4().int, title=title, author=author, content=content)
+            try:
+                blog_post = BlogPost(id=uuid4().int, title=title, author=author, content=content)
+            except ValueError as e:
+                blog_post = None
+            if blog_post is None:
+                error = "Validation failed"
+                return render_template('error.html', error=error)
             blog.add_post(blog_post)
             return redirect(url_for('blog.index'))
 

@@ -29,7 +29,7 @@ class BlogJsonImpl(BlogService):
     def save_posts(self, posts: List[BlogPost]) -> None:
         """Save the provided list of blog posts to the JSON file."""
         with open(self.file_path, 'w') as file:
-            json.dump([post.to_dict() for post in posts], file)
+            json.dump([post.dict() for post in posts], file)
 
     def add_post(self, post: BlogPost) -> None:
         """Add a new blog post to the JSON file."""

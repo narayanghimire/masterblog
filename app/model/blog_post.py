@@ -1,16 +1,10 @@
-class BlogPost:
-    def __init__(self, id: int, author: str, title: str, content: str):
-        """Initialize a BlogPost with an ID, author, title, and content."""
-        self.id = id
-        self.author = author
-        self.title = title
-        self.content = content
+from pydantic import BaseModel, Field
 
-    def to_dict(self):
-        """Convert the BlogPost object to a dictionary representation."""
-        return {
-            'id': self.id,
-            'author': self.author,
-            'title': self.title,
-            'content': self.content
-        }
+class BlogPost(BaseModel):
+    id: int
+    author: str = Field(..., min_length=2, max_length=256)
+    title: str = Field(..., min_length=2, max_length=200)
+    content: str = Field(..., min_length=1)
+
+    class Config:
+        orm_mode = True
